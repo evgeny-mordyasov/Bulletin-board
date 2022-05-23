@@ -1,0 +1,107 @@
+photo:
+  info:
+    PhotoRestController
+
+  group-name: photo
+
+  paths:
+    /api/v1/photos/**
+
+address:
+  info:
+    title: AddressRestController
+
+  group-name: address
+
+  paths:
+    /api/v1/addresses/**
+
+advertisement:
+  info:
+    title: AdvertisementRestController
+
+  group-name: advertisement
+
+  paths:
+    /api/v1/advertisements/**
+
+client:
+  info:
+    title: ClientRestController
+
+  group-name: client
+
+  paths:
+    /api/v1/clients/**
+
+category:
+  info:
+    title: CategoryRestController
+
+  group-name: category
+
+  paths:
+    /api/v1/categories/**
+
+lnk:
+  info:
+    title: LnkLocalityStreetRestController
+
+  group-name: lnk
+
+  paths:
+    /api/v1/links-locality-street/**
+
+locality:
+  info:
+    title: LocalityRestController
+
+  group-name: locality
+
+  paths:
+    /api/v1/localities/**
+
+region:
+  info:
+    title: RegionRestController
+
+  group-name: region
+
+  paths:
+    /api/v1/regions/**
+
+street:
+  info:
+    title: StreetRestController
+
+  group-name: street
+
+  paths:
+    /api/v1/streets/**
+
+subcategory:
+  info:
+    title: SubcategoryRestController
+
+  group-name: subcategory
+
+  paths:
+    /api/v1/subcategories/**
+
+complex-address:
+  info:
+    title: ComplexAddressRestController
+
+  group-name: complex
+
+  paths:
+    /api/v1/complex-address/**
+
+auth:
+  info:
+    title: AuthRestController
+
+  group-name: auth
+
+  paths:
+    /api/v1/auth/**

@@ -11,18 +11,22 @@
 
     <properties>
         <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <spring.boot.version>2.5.6</spring.boot.version>
         <postrgesql.version>42.3.3</postrgesql.version>
+        <lombok.version>1.18.22</lombok.version>
+
+        <h2.version>2.1.210</h2.version>
     </properties>
 
     <modules>
-        <module>bulletin-board-model</module>
-        <module>bulletin-board-persistence</module>
-        <module>bulletin-board-service</module>
-        <module>bulletin-board-api</module>
+        <module>bulletin-board-common</module>
+        <module>bulletin-board-core</module>
+        <module>bulletin-board-web</module>
     </modules>
 
     <dependencyManagement>
@@ -30,17 +34,12 @@
             <!-- self modules -->
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
-                <artifactId>bulletin-board-model</artifactId>
+                <artifactId>bulletin-board-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>ru.gold.ordance</groupId>
-                <artifactId>bulletin-board-persistence</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>ru.gold.ordance</groupId>
-                <artifactId>bulletin-board-service</artifactId>
+                <artifactId>bulletin-board-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -72,14 +71,65 @@
                 <scope>test</scope>
             </dependency>
 
+            <!-- lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
             <!-- database -->
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${postrgesql.version}</version>
-                <scope>runtime</scope>
+            </dependency>
+
+            <!-- secondary -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>1.70</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>0.9.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
