@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.ActiveProfiles;
 import ru.gold.ordance.board.core.entity.*;
 import ru.gold.ordance.board.core.service.heir.AdvertisementService;
 import ru.gold.ordance.board.core.persistence.heir.AdvertisementRepository;
@@ -19,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static ru.gold.ordance.board.core.utils.EntityGenerator.*;
 
 @DataJpaTest(showSql = false)
+@ActiveProfiles("test")
 public class AdvertisementServiceTest {
 
     @Autowired
@@ -38,6 +40,8 @@ public class AdvertisementServiceTest {
 
     private Street savedStreet;
 
+    private Photo savedPhoto;
+
     @BeforeEach
     public void setUp() {
         Region savedRegion = manager.persistAndFlush(createRegion());
@@ -47,6 +51,7 @@ public class AdvertisementServiceTest {
         savedSubcategory = manager.persistAndFlush(createSubcategory(savedCategory));
         savedLocality = manager.persistAndFlush(createLocality(savedRegion));
         savedStreet = manager.persistAndFlush(createStreet());
+        savedPhoto = manager.persistAndFlush(createPhoto());
     }
 
     @Test
@@ -200,7 +205,7 @@ public class AdvertisementServiceTest {
     }
 
     @Test
-    public void update_saveAdvertisement_clientOrSubcategoryOrStreetOrLocalityDoesNotExistInStorage() {
+    public void update_saveAdvertisement_clientOrSubcategoryOrStreetOrLocalityOrPhotoDoesNotExistInStorage() {
         Advertisement created = createAdvertisement(999L);
 
         Optional<Advertisement> saved = service.update(created);
@@ -209,8 +214,8 @@ public class AdvertisementServiceTest {
     }
 
     @Test
-    public void update_saveAdvertisement_clientOrSubcategoryOrStreetOrLocalityExistsInStorage() {
-        Advertisement created = createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet);
+    public void update_saveAdvertisement_clientOrSubcategoryOrStreetOrLocalityOrPhotoExistsInStorage() {
+        Advertisement created = createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet, savedPhoto);
 
         Optional<Advertisement> saved = service.update(created);
 
@@ -221,9 +226,9 @@ public class AdvertisementServiceTest {
     @Test
     public void update_updateAdvertisement() {
         Long entityId =
-                repository.saveAndFlush(createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet)).getId();
+                repository.saveAndFlush(createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet, savedPhoto)).getId();
 
-        Advertisement newObj = createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet);
+        Advertisement newObj = createAdvertisement(savedClient, savedSubcategory, savedLocality, savedStreet, savedPhoto);
         newObj.setId(entityId);
 
         Advertisement updated = service.update(newObj).get();

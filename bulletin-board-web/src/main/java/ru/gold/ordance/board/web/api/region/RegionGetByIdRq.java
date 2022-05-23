@@ -12,8 +12,4 @@ public class RegionGetByIdRq implements GetByIdRq {
     private static final long serialVersionUID = 1L;
 
     private final Long entityId;
-
-    public RegionGetByIdRq() {
-        entityId = null;
-    }
 }
