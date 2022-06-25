@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 import { useAuth } from "../../hooks/useAuth";
@@ -19,20 +20,16 @@ const Header = () => {
       <div className="container">
         <div className={styles.header__wrap}>
           <div className={styles.header__wrap__left}>
-            <Logo />
-            <a href="index.html" className={styles.header__wrap__title}>
-              Bulletin Board
-            </a>
+            <Link className={styles.header__wrap__link} to={"/"}>
+              <Logo />
+              <div className={styles.header__wrap__title}>Bulletin Board</div>
+            </Link>
             <nav className={styles.header__wrap__nav}>
-              <a href="" className={styles.header__wrap__left__category}>
-                Авто
-              </a>
-              <a href="" className={styles.header__wrap__left__category}>
+              <div className={styles.header__wrap__left__category}>Авто</div>
+              <div className={styles.header__wrap__left__category}>
                 Недвижимость
-              </a>
-              <a href="" className={styles.header__wrap__left__category}>
-                Работа
-              </a>
+              </div>
+              <div className={styles.header__wrap__left__category}>Работа</div>
             </nav>
           </div>
           <div className={styles.header__wrap__right}>
@@ -48,7 +45,7 @@ const Header = () => {
                 <div
                   className={styles.header__wrap__right__buttons__registration}
                 >
-                  {user?.name}
+                  {user}
                 </div>
               )}
               <div

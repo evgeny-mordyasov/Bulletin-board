@@ -15,6 +15,11 @@ header {
   display: flex;
 }
 
+.header__wrap__link {
+  display: flex;
+  text-decoration: none;
+}
+
 .header__wrap__logo {
   width: 40px;
   height: 40px;
@@ -28,6 +33,7 @@ header {
   line-height: 38px;
   color: #000000;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
   text-decoration: none;
 }
 
@@ -40,6 +46,7 @@ header {
   text-decoration: none;
   color: #000000;
   margin: auto 10px;
+  cursor: pointer;
 }
 
 .header__wrap__left__category:hover {
@@ -62,6 +69,7 @@ header {
   color: #000000;
   text-decoration: none;
   margin: auto 0;
+  cursor: pointer;
 }
 
 .header__wrap__right__buttons__ad {
@@ -74,6 +82,7 @@ header {
   text-decoration: none;
   border-radius: 5px;
   transition: 0.5s;
+  cursor: pointer;
 }
 
 .header__wrap__right__buttons__ad:hover {
