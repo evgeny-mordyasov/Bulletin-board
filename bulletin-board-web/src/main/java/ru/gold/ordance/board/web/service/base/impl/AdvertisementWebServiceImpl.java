@@ -31,15 +31,15 @@ public class AdvertisementWebServiceImpl implements AdvertisementWebService {
     }
 
     @Override
-    public AdvertisementGetRs findById(AdvertisementGetByIdRq rq) {
+    public WebAdvertisementGetById findById(AdvertisementGetByIdRq rq) {
         Optional<Advertisement> found = service.findById(rq.getEntityId());
 
         if (found.isPresent()) {
             WebAdvertisement webAdvertisementRs = mapper.fromEntity(found.get());
 
-            return AdvertisementGetRs.success(Collections.singletonList(webAdvertisementRs));
+            return WebAdvertisementGetById.success(webAdvertisementRs);
         } else {
-            return AdvertisementGetRs.success(Collections.emptyList());
+            return WebAdvertisementGetById.success(null);
         }
     }
 

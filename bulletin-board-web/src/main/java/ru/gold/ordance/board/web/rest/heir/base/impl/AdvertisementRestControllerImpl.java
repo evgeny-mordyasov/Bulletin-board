@@ -21,7 +21,7 @@ import static ru.gold.ordance.board.web.validation.Validation.validate;
 @RestController
 @RequestMapping(value = "/api/v1/advertisements")
 @CrossOrigin(origins = "${cross-origin}")
-public class AdvertisementRestControllerImpl implements AdvertisementRestController {
+public class AdvertisementRestControllerImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdvertisementRestControllerImpl.class);
 
     private final AdvertisementWebService service;
@@ -30,7 +30,6 @@ public class AdvertisementRestControllerImpl implements AdvertisementRestControl
         this.service = service;
     }
 
-    @Override
     @GetMapping(produces = JSON)
     @Operation(summary = "Get all advertisements", tags = "search")
     @ApiResponses({
@@ -61,7 +60,6 @@ public class AdvertisementRestControllerImpl implements AdvertisementRestControl
         }
     }
 
-    @Override
     @GetMapping(value = "/{entityId}", produces = JSON)
     @Operation(summary = "Get advertisement by id", tags = "search")
     @ApiResponses({
@@ -80,27 +78,26 @@ public class AdvertisementRestControllerImpl implements AdvertisementRestControl
                     content = @Content(mediaType = JSON,
                             examples = @ExampleObject(FIND_CALL_ERROR)))
     })
-    public AdvertisementGetRs findById(@PathVariable Long entityId) {
+    public WebAdvertisementGetById findById(@PathVariable Long entityId) {
         AdvertisementGetByIdRq rq = new AdvertisementGetByIdRq(entityId);
 
         try {
             LOGGER.info("Get by id request received: {}", rq);
 
             validate(rq);
-            AdvertisementGetRs rs = service.findById(rq);
+            WebAdvertisementGetById rs = service.findById(rq);
             handleResponse(LOGGER, rs, rq, null);
 
             return rs;
         } catch (Exception e) {
             Status status = toStatus(e);
-            AdvertisementGetRs rs = AdvertisementGetRs.error(status.getCode(), status.getDescription());
+            WebAdvertisementGetById rs = WebAdvertisementGetById.error(status.getCode(), status.getDescription());
             handleResponse(LOGGER, rs, rq, e);
 
             return rs;
         }
     }
 
-    @Override
     @GetMapping(value = "/category-name/{name}", produces = JSON)
     @Operation(summary = "Get advertisement by category name", tags = "search")
     @ApiResponses({
@@ -139,7 +136,6 @@ public class AdvertisementRestControllerImpl implements AdvertisementRestControl
         }
     }
 
-    @Override
     @GetMapping(value = "/region-name/{name}", produces = JSON)
     @Operation(summary = "Get advertisement by region name", tags = "search")
     @ApiResponses({
@@ -178,7 +174,6 @@ public class AdvertisementRestControllerImpl implements AdvertisementRestControl
         }
     }
 
-    @Override
     @GetMapping(value = "/category-name/{categoryName}/region-name/{regionName}", produces = JSON)
     @Operation(summary = "Get advertisement by region name", tags = "search")
     @ApiResponses({
@@ -218,7 +213,6 @@ public class AdvertisementRestControllerImpl implements AdvertisementRestControl
         }
     }
 
-    @Override
     @GetMapping(value = "/name/{name}", produces = JSON)
     @Operation(summary = "Get advertisement by name", tags = "search")
     @ApiResponses({
@@ -257,7 +251,6 @@ public class AdvertisementRestControllerImpl implements AdvertisementRestControl
         }
     }
 
-    @Override
     @PostMapping(produces = JSON, consumes = JSON)
     @Operation(summary = "(Save OR update) advertisement", tags = "save")
     @ApiResponses({
@@ -299,7 +292,6 @@ public class AdvertisementRestControllerImpl implements AdvertisementRestControl
         }
     }
 
-    @Override
     @DeleteMapping(value = "/{entityId}", produces = JSON)
     @Operation(summary = "Delete advertisement by id", tags = "delete")
     @ApiResponses({
