@@ -72,6 +72,7 @@ const Modal = ({ isOpen, close }) => {
       setUser(data?.webClient);
       setValueIntoLocalStorage("accessToken", data.token);
       setValueIntoLocalStorage("user", data.webClient.name);
+      setValueIntoLocalStorage("userId", data.webClient.entityId);
       resetSignin();
       close();
     } catch (err) {
@@ -92,6 +93,7 @@ const Modal = ({ isOpen, close }) => {
       setUser(data?.webClient);
       setValueIntoLocalStorage("accessToken", data.token);
       setValueIntoLocalStorage("user", data.webClient.name);
+      setValueIntoLocalStorage("userId", data.webClient.entityId);
       resetSignup();
       close();
     } catch (err) {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { ModalProvider } from "../../context/ModalContext";
 import { getAds, getPhotos, getLocalities } from "../../requests/ad";
 import { aggregateAds } from "../../utils/global";
@@ -52,14 +53,16 @@ const HomePage = () => {
         <div className="container">
           <div className="cards">
             {aggregatedAds?.map((ad) => (
-              <Card
-                name={ad.name}
-                price={ad.price}
-                date={ad.createDate}
-                image={ad.photo?.urn}
-                locality={ad.locality?.name}
-                key={ad.entityId}
-              />
+              <Link className="card" to={`${ad.entityId}`}>
+                <Card
+                  name={ad.name}
+                  price={ad.price}
+                  date={ad.createDate}
+                  image={ad.photo?.urn}
+                  locality={ad.locality?.name}
+                  key={ad.entityId}
+                />
+              </Link>
             ))}
           </div>
         </div>

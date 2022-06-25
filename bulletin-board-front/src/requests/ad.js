@@ -19,4 +19,8 @@ export const getAd = (id) => axiosInstance.get(`advertisements/${id}`);
 
 export const getPhoto = (id) => axiosInstance.get(`photos/${id}`);
 
-export const getLocality = (id) => axiosInstance.get(`localitites/${id}`);
+export const getLocality = (id) => axiosInstance.get(`localities/${id}`);
+
+export const getUser = (id) => axiosInstance.get(`clients/${id}`);
+
+export const deleteAd = (id) => axiosInstance.delete(`advertisements/${id}`);

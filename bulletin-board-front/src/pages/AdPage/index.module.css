@@ -1,0 +1,66 @@
+.ad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info {
+  text-align: center;
+}
+
+.name {
+  font-size: 32px;
+  line-height: 36px;
+  font-weight: 700;
+}
+
+.price {
+  font-size: 32px;
+  line-height: 36px;
+  font-weight: 700;
+  padding: 12px 0;
+}
+
+.locality {
+  color: #8f8f8f;
+  font-size: 24px;
+}
+
+.date {
+  padding-top: 12px;
+}
+
+.buttons {
+  display: flex;
+  width: 400px;
+  justify-content: space-between;
+  padding-top: 32px;
+  margin-bottom: 64px;
+}
+
+.buttons div {
+  border: 1px solid;
+  padding: 12px;
+  width: 120px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.contacts {
+  padding-top: 32px;
+  text-align: center;
+}
+
+.firstName {
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 700;
+  padding: 12px 0;
+  color: red;
+}
+
+.number {
+  font-size: 24px;
+  line-height: 28px;
+  color: red;
+}

@@ -5,14 +5,18 @@ import styles from "./index.module.css";
 const Section = () => {
   return (
     <section>
-      <div class="container">
-        <div class={styles.section__wrap__info}>
-          <div class={styles.section__wrap__about__logo}>
+      <div className="container">
+        <div className={styles.section__wrap__info}>
+          <div className={styles.section__wrap__about__logo}>
             <Logo />
-            <h3 class={styles.section__wrap__about__title}>Bulletin Board</h3>
+            <h3 className={styles.section__wrap__about__title}>
+              Bulletin Board
+            </h3>
           </div>
-          <div class={styles.section__wrap__about__text}>
-            <p class={styles.about__text}>Bulletin Board - сайт объявлений.</p>
+          <div className={styles.section__wrap__about__text}>
+            <p className={styles.about__text}>
+              Bulletin Board - сайт объявлений.
+            </p>
           </div>
         </div>
       </div>
