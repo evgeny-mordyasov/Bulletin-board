@@ -1,6 +1,8 @@
 package ru.gold.ordance.board.web.api.advertisement;
 
 import lombok.*;
+import ru.gold.ordance.board.core.entity.*;
+import ru.gold.ordance.board.web.api.client.WebClient;
 
 import java.time.LocalDate;
 
@@ -14,23 +16,23 @@ public class WebAdvertisement {
 
     private final Long entityId;
 
-    private final Long clientId;
+    private final WebClient client;
 
     private final String name;
 
     private final LocalDate createDate;
 
-    private final Long subcategoryId;
+    private final Subcategory subcategory;
 
     private final String description;
 
     private final int price;
 
-    private final Long localityId;
+    private final Locality locality;
 
-    private final Long streetId;
+    private final Street street;
 
     private final String houseNumber;
 
-    private final Long photoId;
+    private final Photo photo;
 }

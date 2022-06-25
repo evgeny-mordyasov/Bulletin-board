@@ -3,6 +3,7 @@ package ru.gold.ordance.board.web.service.mapper.impl;
 import ru.gold.ordance.board.core.entity.*;
 import ru.gold.ordance.board.web.api.advertisement.AdvertisementUpdateRq;
 import ru.gold.ordance.board.web.api.advertisement.WebAdvertisement;
+import ru.gold.ordance.board.web.api.client.WebClient;
 import ru.gold.ordance.board.web.service.mapper.AdvertisementMapper;
 
 public class AdvertisementMapperImpl implements AdvertisementMapper {
@@ -36,16 +37,22 @@ public class AdvertisementMapperImpl implements AdvertisementMapper {
     public WebAdvertisement fromEntity(Advertisement entity) {
         return WebAdvertisement.builder()
                 .entityId(entity.getId())
-                .clientId(entity.getClient().getId())
+                .client(WebClient.builder()
+                        .entityId(entity.getClient().getId())
+                        .name(entity.getClient().getName())
+                        .login(entity.getClient().getLogin())
+                        .phoneNumber(entity.getClient().getPhoneNumber())
+                        .role(entity.getClient().getRole().getName())
+                        .build())
                 .name(entity.getName())
                 .createDate(entity.getCreateDate())
-                .subcategoryId(entity.getSubcategory().getId())
+                .subcategory(entity.getSubcategory())
                 .description(entity.getDescription())
                 .price(entity.getPrice())
-                .localityId(entity.getLocality().getId())
-                .streetId(entity.getStreet().getId())
+                .locality(entity.getLocality())
+                .street(entity.getStreet())
                 .houseNumber(entity.getHouseNumber())
-                .photoId(entity.getPhoto().getId())
+                .photo(entity.getPhoto())
                 .build();
     }
 }
