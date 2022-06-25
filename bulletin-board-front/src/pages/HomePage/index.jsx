@@ -1,74 +1,44 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
-import { ModalProvider } from "../../context/ModalContext";
-import { getAds, getPhotos, getLocalities } from "../../requests/ad";
-import { aggregateAds } from "../../utils/global";
+import React, {useCallback, useEffect} from "react";
+import {Link} from "react-router-dom";
+import {ModalProvider} from "../../context/ModalContext";
 import DefaultLayout from "../../layouts/DefaultLayout";
-import Card from "../../components/Card";
+import {useDispatch, useSelector} from "react-redux";
+import {getPhotos} from "../../redux/features/posts/postSlice";
 
 const HomePage = () => {
-  const [ads, setAds] = useState([]);
-  const [photo, setPhoto] = useState([]);
-  const [locality, setLocality] = useState([]);
-  const [aggregatedAds, setAggregatedAds] = useState([]);
-
-  const fetchAds = useCallback(async () => {
-    const { data } = await getAds();
-    setAds(data.advertisementList);
-  }, []);
-
-  const fetchPhotos = useCallback(async () => {
-    const { data } = await getPhotos();
-    setPhoto(data.photoList);
-  }, []);
-
-  const fetchLocalities = useCallback(async () => {
-    const { data } = await getLocalities();
-    setLocality(data.localityList);
-  }, []);
-
-  useEffect(() => {
-    fetchAds();
-  }, [fetchAds]);
-
-  useEffect(() => {
-    fetchPhotos();
-  }, [fetchPhotos]);
-
-  useEffect(() => {
-    fetchLocalities();
-  }, [fetchLocalities]);
-
-  useEffect(() => {
-    if (ads && photo && locality) {
-      setAggregatedAds(aggregateAds(ads, photo, locality));
-    }
-  }, [ads, photo, locality]);
-
-  console.log("aggregatedAds", aggregatedAds);
-
-  return (
-    <ModalProvider>
-      <DefaultLayout>
-        <div className="container">
-          <div className="cards">
-            {aggregatedAds?.map((ad) => (
-              <Link className="card" to={`${ad.entityId}`}>
-                <Card
-                  name={ad.name}
-                  price={ad.price}
-                  date={ad.createDate}
-                  image={ad.photo?.urn}
-                  locality={ad.locality?.name}
-                  key={ad.entityId}
-                />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </DefaultLayout>
-    </ModalProvider>
-  );
+	
+	const dispatch = useDispatch()
+	const {photos} = useSelector(state => state.posts)
+	
+	
+	console.log(photos)
+	
+	const getDeviceDataTotal = useCallback(() => {
+		dispatch(getPhotos())
+	}, []);
+	
+	useEffect(() => {
+		getDeviceDataTotal()
+	}, [getDeviceDataTotal]);
+	
+	return (
+		<ModalProvider>
+			<DefaultLayout>
+				<div className="container">
+					<div className="cards">
+						{photos.advertisementList?.map((ad) => (
+							<Link className="card" to={`cards/${ad.entityId}`}>
+								<img src={ad.photo.urn} alt=""/>
+								<div>
+									<h1>{ad.name}</h1>
+								</div>
+							</Link>
+						))}
+					</div>
+				</div>
+			</DefaultLayout>
+		</ModalProvider>
+	);
 };
 
 export default HomePage;

@@ -20,12 +20,11 @@ const RouteComponent = () => {
     if (user && user !== "null") setUser(user);
   }, [setUser, getValueFromLocalStorage]);
 
-  console.log(isAuth, "isAuth");
 
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path=":id" element={<AdPage />} />
+      <Route path="cards/:id" element={<AdPage />} />
     </Routes>
   );
 };
