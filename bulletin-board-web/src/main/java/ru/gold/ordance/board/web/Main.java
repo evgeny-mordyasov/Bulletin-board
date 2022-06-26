@@ -50,7 +50,11 @@ public class Main implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         CategoryUpdateRs category = categoryWebService.update(CategoryUpdateRq.builder()
-                .name("category_1")
+                .name("Автомобили")
+                .build());
+
+        categoryWebService.update(CategoryUpdateRq.builder()
+                .name("Другое")
                 .build());
 
         SubcategoryUpdateRs subcategory = subcategoryWebService.update(SubcategoryUpdateRq.builder()
@@ -60,10 +64,10 @@ public class Main implements CommandLineRunner {
 
 
         ComplexAddressUpdateRs address = complexAddressWebService.update(ComplexAddressUpdateRq.builder()
-                .regionName("region_1")
-                .localityName("locality_1")
-                .streetName("street_1")
-                .houseNumber("houseNumber_1")
+                .regionName("Алтайский край")
+                .localityName("Барнаул")
+                .streetName("Червонная")
+                .houseNumber("5")
                 .build());
 
         AuthRegistrationRs registrationRs = authWebService.registration(AuthRegistrationRq.builder()
@@ -86,7 +90,7 @@ public class Main implements CommandLineRunner {
                 .price(10)
                 .localityId(address.getLocalityId())
                 .streetId(address.getStreetId())
-                .houseNumber("houseNumber_1")
+                .houseNumber("5")
                 .photoId(1L)
                 .build());
 
@@ -98,7 +102,7 @@ public class Main implements CommandLineRunner {
                 .price(15)
                 .localityId(address.getLocalityId())
                 .streetId(address.getStreetId())
-                .houseNumber("houseNumber_1")
+                .houseNumber("5")
                 .photoId(1L)
                 .build());
     }
