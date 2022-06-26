@@ -298,6 +298,9 @@ public class AdvertisementRestControllerImpl {
             PhotoSaveRq photoRq = new PhotoSaveRq(file);
             PhotoSaveRs rs = photoWebService.save(photoRq);
 
+            if (entityId == 0) {
+                entityId = null;
+            }
             AdvertisementUpdateRq rq = new AdvertisementUpdateRq(
                     entityId,
                     clientId,
