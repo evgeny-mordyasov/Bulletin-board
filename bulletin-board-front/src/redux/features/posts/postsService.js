@@ -14,6 +14,13 @@ const getPhotoById = async (entityId) => {
 	return response.data
 }
 
+const getSubcategory = async () => {
+	
+	const response = await axios.get('http://localhost:8090/api/v1/subcategories/')
+	
+	return response.data
+}
+
 const deletePhotoById = async (entityId) => {
 	
 	const response = await axios.delete('http://localhost:8090/api/v1/advertisements/' + entityId)
@@ -21,9 +28,16 @@ const deletePhotoById = async (entityId) => {
 	return response.data
 }
 
-const createPhoto = async (entityId) => {
+const createPhoto = async (adData) => {
 	
-	const response = await axios.delete('http://localhost:8090/api/v1/advertisements/' + entityId)
+	const response = await axios.post('http://localhost:8090/api/v1/advertisements/', adData)
+	
+	return response.data
+}
+
+const updatePhoto = async (adData) => {
+	
+	const response = await axios.post('http://localhost:8090/api/v1/advertisements/', adData)
 	
 	return response.data
 }
@@ -32,6 +46,9 @@ const photoService = {
 	getPhotos,
 	getPhotoById,
 	deletePhotoById,
+	createPhoto,
+	updatePhoto,
+	getSubcategory,
 }
 
 export default photoService

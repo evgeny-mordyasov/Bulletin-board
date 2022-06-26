@@ -4,7 +4,7 @@ export const aggregateAds = (ads, photos, localities) => {
       (photo) => photo.entityId === ad.entityId && photo
     );
     const adLocality = localities?.find(
-      (locality) => locality.entityId === ad.localityId && locality
+      (locality) => locality.entityId === ad.locality && locality
     );
     return { ...ad, photo: adPhoto, locality: adLocality };
   });
