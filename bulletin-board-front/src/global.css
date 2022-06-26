@@ -14,14 +14,3 @@
   justify-content: space-between;
   flex-wrap: wrap;
 }
-
-.card {
-  font-family: "Montserrat", sans-serif;
-  width: 31.5%;
-  height: 460px;
-  background: #f8f8f8;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 32px;
-  text-decoration: none;
-}
