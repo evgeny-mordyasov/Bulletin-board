@@ -30,9 +30,16 @@ export const validateEmail = (email) => {
   }
 };
 
-export const validatePasswordConfirmation = (passwordConfirmation) => {
+export const validatePasswordConfirmation = (
+  passwordConfirmation,
+  password
+) => {
   if (!passwordConfirmation) {
     return "Поле обязательно";
+  }
+
+  if (passwordConfirmation !== password) {
+    return "Пароли не совпадают";
   }
 };
 
