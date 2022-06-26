@@ -1,67 +1,43 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ModalProvider } from "../../context/ModalContext";
-import { getAds, getPhotos, getLocalities } from "../../requests/ad";
-import { aggregateAds } from "../../utils/global";
 import DefaultLayout from "../../layouts/DefaultLayout";
-import Card from "../../components/Card";
+import { useDispatch, useSelector } from "react-redux";
+import { getPhotos } from "../../redux/features/posts/postSlice";
+import styles from "./index.module.css";
 
 const HomePage = () => {
-  const [ads, setAds] = useState([]);
-  const [photo, setPhoto] = useState([]);
-  const [locality, setLocality] = useState([]);
-  const [aggregatedAds, setAggregatedAds] = useState([]);
+  const dispatch = useDispatch();
+  const { photos } = useSelector((state) => state.posts);
 
-  const fetchAds = useCallback(async () => {
-    const { data } = await getAds();
-    setAds(data.advertisementList);
-  }, []);
+  console.log(photos);
 
-  const fetchPhotos = useCallback(async () => {
-    const { data } = await getPhotos();
-    setPhoto(data.photoList);
-  }, []);
-
-  const fetchLocalities = useCallback(async () => {
-    const { data } = await getLocalities();
-    setLocality(data.localityList);
+  const getDeviceDataTotal = useCallback(() => {
+    dispatch(getPhotos());
   }, []);
 
   useEffect(() => {
-    fetchAds();
-  }, [fetchAds]);
-
-  useEffect(() => {
-    fetchPhotos();
-  }, [fetchPhotos]);
-
-  useEffect(() => {
-    fetchLocalities();
-  }, [fetchLocalities]);
-
-  useEffect(() => {
-    if (ads && photo && locality) {
-      setAggregatedAds(aggregateAds(ads, photo, locality));
-    }
-  }, [ads, photo, locality]);
-
-  console.log("aggregatedAds", aggregatedAds);
+    getDeviceDataTotal();
+  }, [getDeviceDataTotal]);
 
   return (
     <ModalProvider>
       <DefaultLayout>
         <div className="container">
           <div className="cards">
-            {aggregatedAds?.map((ad) => (
-              <Link className="card" to={`${ad.entityId}`}>
-                <Card
-                  name={ad.name}
-                  price={ad.price}
-                  date={ad.createDate}
-                  image={ad.photo?.urn}
-                  locality={ad.locality?.name}
-                  key={ad.entityId}
-                />
+            {photos.advertisementList?.map((ad) => (
+              <Link
+                className={styles.card}
+                to={`cards/${ad.entityId}`}
+                key={ad.entityId}
+              >
+                <img src={ad.photo.urn} alt="" />
+                <div className={styles.info}>
+                  <h3>{ad.name}</h3>
+                  <h4 className={styles.price}>{ad.price} руб.</h4>
+                  <div className={styles.locality}>{ad.locality?.name}</div>
+                  <div className={styles.date}>{ad.createDate}</div>
+                </div>
               </Link>
             ))}
           </div>

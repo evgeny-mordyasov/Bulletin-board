@@ -4,11 +4,16 @@ import { useModal } from "../../hooks/useModal";
 import { ReactComponent as Logo } from "../../assets/img/logo.svg";
 import { useAuth } from "../../hooks/useAuth";
 import styles from "./index.module.css";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const Header = () => {
   const { open } = useModal();
 
-  const { isAuth, user } = useAuth();
+  const { getValueFromLocalStorage } = useLocalStorage();
+
+  const userName = getValueFromLocalStorage("user");
+
+  const { isAuth } = useAuth();
 
   const handleCreateAd = () => {
     if (isAuth) console.log("валим ребята)");
@@ -45,7 +50,7 @@ const Header = () => {
                 <div
                   className={styles.header__wrap__right__buttons__registration}
                 >
-                  {user}
+                  {userName}
                 </div>
               )}
               <div
