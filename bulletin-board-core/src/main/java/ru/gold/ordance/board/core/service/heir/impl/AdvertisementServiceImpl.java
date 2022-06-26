@@ -121,6 +121,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
         Advertisement updatedAdvertisement;
 
         if (exists) {
+            advertisement.setCreateDate(repository.findById(advertisement.getId()).get().getCreateDate());
             updatedAdvertisement = repository.saveAndFlush(advertisement);
             LOGGER.info("The advertisement was updated. advertisement = {}", updatedAdvertisement);
         } else {
