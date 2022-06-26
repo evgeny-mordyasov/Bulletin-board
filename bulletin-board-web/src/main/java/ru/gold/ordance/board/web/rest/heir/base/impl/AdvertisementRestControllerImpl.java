@@ -8,10 +8,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import ru.gold.ordance.board.web.api.photo.PhotoSaveRq;
+import ru.gold.ordance.board.web.api.photo.PhotoSaveRs;
 import ru.gold.ordance.board.web.rest.heir.base.AdvertisementRestController;
 import ru.gold.ordance.board.web.api.Status;
 import ru.gold.ordance.board.web.api.advertisement.*;
 import ru.gold.ordance.board.web.service.base.AdvertisementWebService;
+import ru.gold.ordance.board.web.service.base.PhotoWebService;
 
 import static ru.gold.ordance.board.web.swagger.example.ApiExamples.ApiAdvertisement.*;
 import static ru.gold.ordance.board.web.swagger.example.ApiExamples.Common.*;
@@ -25,9 +29,12 @@ public class AdvertisementRestControllerImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(AdvertisementRestControllerImpl.class);
 
     private final AdvertisementWebService service;
+    private final PhotoWebService photoWebService;
 
-    public AdvertisementRestControllerImpl(AdvertisementWebService service) {
+    public AdvertisementRestControllerImpl(AdvertisementWebService service,
+                                           PhotoWebService photoWebService) {
         this.service = service;
+        this.photoWebService = photoWebService;
     }
 
     @GetMapping(produces = JSON)
@@ -251,7 +258,7 @@ public class AdvertisementRestControllerImpl {
         }
     }
 
-    @PostMapping(produces = JSON, consumes = JSON)
+    @PostMapping()
     @Operation(summary = "(Save OR update) advertisement", tags = "save")
     @ApiResponses({
             @ApiResponse(responseCode = "SUCCESS",
@@ -274,21 +281,45 @@ public class AdvertisementRestControllerImpl {
                     content = @Content(mediaType = JSON,
                             examples = @ExampleObject(UPDATE_CALL_ERROR)))
     })
-    public AdvertisementUpdateRs update(@RequestBody AdvertisementUpdateRq rq) {
+    public AdvertisementUpdateRs update(
+            @RequestParam("entityId") Long entityId,
+            @RequestParam("clientId") Long clientId,
+            @RequestParam("name") String name,
+            @RequestParam("subcategoryId") Long subcategoryId,
+            @RequestParam("description") String description,
+            @RequestParam("localityId") Long localityId,
+            @RequestParam("price") int price,
+            @RequestParam("streetId") Long streetId,
+            @RequestParam("houseNumber") String houseNumber,
+            @RequestParam("file") MultipartFile file
+    ) {
+
         try {
-            LOGGER.info("Update request received: {}", rq);
+            PhotoSaveRq photoRq = new PhotoSaveRq(file);
+            PhotoSaveRs rs = photoWebService.save(photoRq);
+
+            AdvertisementUpdateRq rq = new AdvertisementUpdateRq(
+                    entityId,
+                    clientId,
+                    name,
+                    subcategoryId,
+                    description,
+                    price,
+                    localityId,
+                    streetId,
+                    houseNumber,
+                    rs.getEntityId()
+            );
 
             validate(rq);
-            AdvertisementUpdateRs rs = service.update(rq);
-            handleResponse(LOGGER, rs, rq, null);
+            AdvertisementUpdateRs rsAd = service.update(rq);
+            handleResponse(LOGGER, rsAd, rq, null);
 
-            return rs;
+            return rsAd;
         } catch (Exception e) {
             Status status = toStatus(e);
-            AdvertisementUpdateRs rs = AdvertisementUpdateRs.error(status.getCode(), status.getDescription());
-            handleResponse(LOGGER, rs, rq, e);
 
-            return rs;
+            return AdvertisementUpdateRs.error(status.getCode(), status.getDescription());
         }
     }
 
