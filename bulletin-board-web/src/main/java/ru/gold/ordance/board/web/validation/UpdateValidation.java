@@ -87,7 +87,7 @@ class UpdateValidation implements RequestValidation<UpdateRq> {
     }
 
     private void validateRequest(AdvertisementUpdateRq rq) {
-        errorEntityId(rq.getEntityId());
+//        errorEntityId(rq.getEntityId());
         errorObjectId(rq.getClientId(), "clientId");
         errorName(rq.getName());
         errorObjectId(rq.getSubcategoryId(), "subcategoryId");
