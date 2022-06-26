@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.gold.ordance.board.web.api.complex.ComplexAddressUpdateRq;
+import ru.gold.ordance.board.web.api.complex.ComplexAddressUpdateRs;
 import ru.gold.ordance.board.web.api.photo.PhotoSaveRq;
 import ru.gold.ordance.board.web.api.photo.PhotoSaveRs;
 import ru.gold.ordance.board.web.rest.heir.base.AdvertisementRestController;
@@ -16,6 +18,7 @@ import ru.gold.ordance.board.web.api.Status;
 import ru.gold.ordance.board.web.api.advertisement.*;
 import ru.gold.ordance.board.web.service.base.AdvertisementWebService;
 import ru.gold.ordance.board.web.service.base.PhotoWebService;
+import ru.gold.ordance.board.web.service.complex.ComplexAddressWebService;
 
 import static ru.gold.ordance.board.web.swagger.example.ApiExamples.ApiAdvertisement.*;
 import static ru.gold.ordance.board.web.swagger.example.ApiExamples.Common.*;
@@ -30,11 +33,14 @@ public class AdvertisementRestControllerImpl {
 
     private final AdvertisementWebService service;
     private final PhotoWebService photoWebService;
+    private final ComplexAddressWebService complexAddressWebService;
 
     public AdvertisementRestControllerImpl(AdvertisementWebService service,
-                                           PhotoWebService photoWebService) {
+                                           PhotoWebService photoWebService,
+                                           ComplexAddressWebService complexAddressWebService) {
         this.service = service;
         this.photoWebService = photoWebService;
+        this.complexAddressWebService = complexAddressWebService;
     }
 
     @GetMapping(produces = JSON)
@@ -287,20 +293,29 @@ public class AdvertisementRestControllerImpl {
             @RequestParam("name") String name,
             @RequestParam("subcategoryId") Long subcategoryId,
             @RequestParam("description") String description,
-            @RequestParam("localityId") Long localityId,
+            @RequestParam("locality") String locality,
             @RequestParam("price") int price,
-            @RequestParam("streetId") Long streetId,
+            @RequestParam("street") String street,
             @RequestParam("houseNumber") String houseNumber,
+            @RequestParam("region") String region,
             @RequestParam("file") MultipartFile file
     ) {
 
         try {
+            ComplexAddressUpdateRs address = complexAddressWebService.update(ComplexAddressUpdateRq.builder()
+                    .regionName(region)
+                    .localityName(locality)
+                    .streetName(street)
+                    .houseNumber(houseNumber)
+                    .build());
+
             PhotoSaveRq photoRq = new PhotoSaveRq(file);
             PhotoSaveRs rs = photoWebService.save(photoRq);
 
             if (entityId == 0) {
                 entityId = null;
             }
+
             AdvertisementUpdateRq rq = new AdvertisementUpdateRq(
                     entityId,
                     clientId,
@@ -308,8 +323,8 @@ public class AdvertisementRestControllerImpl {
                     subcategoryId,
                     description,
                     price,
-                    localityId,
-                    streetId,
+                    address.getLocalityId(),
+                    address.getStreetId(),
                     houseNumber,
                     rs.getEntityId()
             );
