@@ -46,6 +46,7 @@ const Modal = ({ isOpen, close }) => {
     handleSubmit: handleSignup,
     formState: { errors: errorsSignup },
     reset: resetSignup,
+    watch,
   } = useForm({
     defaultValues: {
       email: "",
@@ -204,7 +205,13 @@ const Modal = ({ isOpen, close }) => {
                 <TextInput
                   type="password"
                   name="passwordConfirm"
-                  rules={{ validate: validatePasswordConfirmation }}
+                  rules={{
+                    validate: (val) => {
+                      if (watch("password") !== val) {
+                        return "Пароли не совпадают";
+                      }
+                    },
+                  }}
                   control={controlSignup}
                   errors={errorsSignup.passwordConfirm}
                   placeholder="PASSWORD CONFIRM"

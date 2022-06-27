@@ -1,7 +1,7 @@
 import axios from "axios";
 import { API_URL } from "../constants/global";
 
-const SLEEP_TIME = 7200;
+const SLEEP_TIME = 0;
 
 const sleep = () => new Promise((res) => setTimeout(res, SLEEP_TIME));
 

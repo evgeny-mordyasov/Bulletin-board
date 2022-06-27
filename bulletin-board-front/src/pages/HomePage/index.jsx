@@ -31,7 +31,7 @@ const HomePage = () => {
                 to={`cards/${ad.entityId}`}
                 key={ad.entityId}
               >
-                <img src={ad.photo.urn} alt="" />
+                <img src={ad.photo?.urn} alt="" className={styles.photo} />
                 <div className={styles.info}>
                   <h3>{ad.name}</h3>
                   <h4 className={styles.price}>{ad.price} руб.</h4>

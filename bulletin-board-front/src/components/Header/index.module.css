@@ -20,6 +20,10 @@ header {
   text-decoration: none;
 }
 
+.link {
+  text-decoration: none;
+}
+
 .header__wrap__logo {
   width: 40px;
   height: 40px;

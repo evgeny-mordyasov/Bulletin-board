@@ -1,7 +1,6 @@
 .card {
   font-family: "Montserrat", sans-serif;
   width: 31.5%;
-  height: 460px;
   background: #f8f8f8;
   display: flex;
   flex-direction: column;
@@ -25,4 +24,8 @@
 .date {
   padding-top: 8px;
   color: #8f8f8f;
+}
+
+.photo {
+  height: 332 px;
 }
